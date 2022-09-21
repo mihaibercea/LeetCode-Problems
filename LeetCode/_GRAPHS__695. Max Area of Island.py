@@ -27,14 +27,41 @@
 
 from collections import defaultdict
 
+
+
 def maxAreaOfIsland(grid):
 
-    ROWS, COLS = len(grid)-1, len(grid[0]-1)
+    ROWS, COLS = len(grid)-1, len(grid[0])-1
+
+    area = 0
+    maxArea = 0
 
     visited = set()
 
-    return
+    def traverse(r, c, area):
+        if ((r, c) in visited) or r<0 or r>ROWS or c<0 or c>COLS or grid[r][c] != 1:
+            return area
+        visited.add((r, c))
+        area +=1
+        area = traverse(r+1, c, area)
+        area = traverse(r-1, c, area)
+        area = traverse(r, c-1, area)
+        area = traverse(r, c+1, area)
 
-grid = [[0,0,1,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],[0,1,1,0,1,0,0,0,0,0,0,0,0],[0,1,0,0,1,1,0,0,1,0,1,0,0],[0,1,0,0,1,1,0,0,1,1,1,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],[0,0,0,0,0,0,0,1,1,0,0,0,0]]
+        return area
+
+    for r in range(ROWS+1):
+        for c in range(COLS+1):
+            if ((r, c) not in visited) and grid[r][c]==1:                
+                area = traverse(r, c, area)
+                if area > maxArea:
+                    maxArea = area
+            
+            area = 0            
+
+    return maxArea
+
+grid = [[0,0,1,],
+        [1,1,0]]
 
 print(maxAreaOfIsland(grid))

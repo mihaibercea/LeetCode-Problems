@@ -1,18 +1,10 @@
-from collections import defaultdict
+import pyshark
 
+cap = pyshark.FileCapture('C:\Work\TLS doc\msvacation.pcapng')
 
-class Node:
-    def __init__(self, val = 0, neighbors = None):
-        self.val = val
-        self.neighbors = neighbors if neighbors is not None else []
+print(cap)
 
-node = Node(1)
+packet = cap[3]
 
-nodeCopy = Node(node.val)
-
-d = defaultdict()
-d[node] = nodeCopy
-
-print(d)
-if d[1]:
-    print
+print(packet)
+print(packet.ipv6.src)
